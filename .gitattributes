@@ -1,0 +1,7 @@
+# Every text file is stored and checked out with LF line endings. The published
+# CSV files are hashed (SHA256SUMS), so a CRLF checkout would change their bytes.
+* text=auto eol=lf
+
+*.xlsx binary
+*.zip binary
+*.pdf binary

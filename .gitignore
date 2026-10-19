@@ -1,0 +1,20 @@
+# Raw downloads of the acquisition scripts (never committed)
+.cache/
+# The full manual readings of the CWaPE Power BI report « GRD par commune », kept local
+# only: their licence is not stated, and copying a substantial part of a database is
+# reserved to its maker (EU sui generis database right). curation/powerbi_checks.csv,
+# committed, keeps only the comparison of each Walloon row (curation/README.md).
+curation/private/
+# Local builds (.build/mini, .build/draft, ...)
+.build/
+
+# Python
+.venv/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Local tooling and secrets
+.claude/
+.env*

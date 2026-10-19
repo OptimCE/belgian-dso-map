@@ -1,0 +1,55 @@
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["scripts", "scripts/acquire", "scripts/curate"]
+filterwarnings = ["error::DeprecationWarning"]
+
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.format]
+line-ending = "lf"
+
+[tool.ruff.lint]
+select = [
+    "E", "F", "W",
+    "I",
+    "B",       # ← bugbear
+    "S",       # ← bandit (security)
+    "UP",
+    "N",
+    "C4",
+    "SIM",
+    "RUF",
+    "ASYNC",
+    "PIE",
+    "PT",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S101", "S105", "S106", "S311", "N806", "PT018"]
+
+[tool.ruff.lint.isort]
+known-first-party = [
+    "build", "changes", "csvio", "dates", "helpers", "lookup", "powerbi", "report", "schema",
+    "validate",
+    # scripts/acquire/
+    "derive", "fetch", "fluvius", "odwb", "statbel",
+    # scripts/curate/
+    "assemble",
+]
+
+
+[tool.mypy]
+python_version = "3.12"
+strict = false
+warn_return_any = true
+warn_unused_ignores = true
+disallow_untyped_defs = true
+exclude = ["^venv/", "^\\.venv/", "^\\.build/"]
+
+[[tool.mypy.overrides]]
+# openpyxl ships no type hints (acquisition scripts only)
+module = ["openpyxl", "openpyxl.*"]
+ignore_missing_imports = true
