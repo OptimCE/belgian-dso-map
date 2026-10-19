@@ -1,0 +1,5 @@
+ins,section_key,nom_fr,nom_nl,nom_de,postcodes,elec_operator,elec_designated,gas_status,gas_operator,flags,note_key,source_ids,valid_from
+13002,baarle-hertog,Baarle-Hertog,Baarle-Hertog,,2387,fluvius-kempen,fluvius-kempen,foreign,enexis,,baarle-hertog-enclaves-gas,fluvius-1-23|vnr-aanwijzing-netbeheerders|vnr-besl-2015-43|vnr-besl-2025-107,
+13002,zondereigen,Zondereigen,Zondereigen,,2387,fluvius-kempen,fluvius-kempen,designated,fluvius-kempen,,,fluvius-1-23|vnr-aanwijzing-netbeheerders|vnr-besl-2015-43|vnr-besl-2025-107|vnr-besl-2025-115,
+82039,bastogne,Bastogne,Bastenaken,Bastnach,6600,ores,ores,designated,ores,,,agw-2022-06-09-ores-gaz|agw-ores-elec-2022|cwape-avis-0900-ores-gaz|cwape-powerbi-grd-elec-2026-10-12|cwape-powerbi-grd-gas-2026-10-12|odwb-ores-elec|odwb-ores-gas,
+82039,bertogne,Bertogne,Bertogne,,6686|6687|6688,ores,ores,none,,,bastogne-gas-territory,agw-2022-05-25-resa-gaz|agw-2022-06-09-ores-gaz|agw-ores-elec-2022|cwape-powerbi-grd-elec-2026-10-12|cwape-powerbi-grd-gas-2026-10-12|decret-2023-05-19-fusion-bastogne-bertogne|odwb-ores-elec|odwb-ores-gas,
