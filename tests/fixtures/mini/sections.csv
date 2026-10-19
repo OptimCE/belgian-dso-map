@@ -1,0 +1,9 @@
+ins,section_key,nom_fr,nom_nl,nom_de,postcodes,elec_operator,elec_designated,gas_status,gas_operator,flags,note_key,source_ids,valid_from
+13002,baarle-hertog,Baarle-Hertog,Baarle-Hertog,,2387,fluvius-kempen,fluvius-kempen,foreign,enexis,,baarle-hertog-enclaves,vreg-aanwijzing|fluvius-1-23,
+13002,zondereigen,Zondereigen,Zondereigen,,2387,fluvius-kempen,fluvius-kempen,designated,fluvius-kempen,,,vreg-aanwijzing|fluvius-1-23,
+92094,champion,Champion,,,5020,ores,ores,designated,ores,,,cwape-avis-ores-2022|odwb-ores-elec|odwb-ores-gas,
+92094,flawinne,Flawinne,,,5020,aieg,ores,designated,ores,transition|operator_differs|to_confirm,namur-aieg-sections,aieg-communes|cwape-avis-ores-2022|odwb-ores-gas|ores-ag-2026-05-21,
+92094,gelbressee,Gelbressée,,,5024,ores,ores,designated,ores,,,cwape-avis-ores-2022|odwb-ores-elec|odwb-ores-gas,
+92094,marche-les-dames,Marche-les-Dames,,,5024,aieg,ores,designated,ores,transition|operator_differs|to_confirm,namur-aieg-sections,aieg-communes|cwape-avis-ores-2022|odwb-ores-gas|ores-ag-2026-05-21,
+92094,namur-centre,Namur (centre),Namen (centrum),Namür (Zentrum),5000,ores,ores,designated,ores,,,cwape-avis-ores-2022|odwb-ores-elec|odwb-ores-gas,
+92094,saint-marc,Saint-Marc,,,5003,aieg,ores,designated,ores,transition|operator_differs|to_confirm,namur-aieg-sections,aieg-communes|cwape-avis-ores-2022|odwb-ores-gas|ores-ag-2026-05-21,

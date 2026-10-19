@@ -1,0 +1,13 @@
+id,role,publisher,title,url,retrieved_at,sha256,license,note
+agw-rew-wavre,R,Gouvernement wallon,AGW désignant REW comme gestionnaire du réseau de distribution d'électricité à Wavre,https://etaamb.openjustice.be/,2026-10-12,,,Fixture : URL fictive
+aieg-communes,C,AIEG,L'AIEG et les communes desservies,https://www.aieg.be/laieg-et-les-communes-desservies/,2026-10-12,,,Page HTML : pas d'empreinte
+brugel-grd,R,Brugel,Brugel — les gestionnaires de réseau de distribution,https://brugel.brussels/brugel/grd-29,2026-10-12,,,
+cwape-avis-ores-2022,R,CWaPE,Avis CWaPE : désignation d'ORES comme GRD d'électricité pour 190 communes (2022),https://www.cwape.be/sites/default/files/cwape-documents/2022.05.24-0899-Avis%20d%C3%A9signation%20ORES%20comme%20GRD%20%C3%A9lec%20pour%20190%20communes.pdf,2026-10-12,95c199672d9f97ca8d7f6072f6479f79fefdd66a573205235a8e56b12af9c84c,,Fixture : empreinte fictive
+cwape-grd-gaz,R,CWaPE,CWaPE — les gestionnaires de réseau de distribution de gaz,https://www.cwape.be/node/160,2026-10-12,,,
+cwape-power-bi,C,CWaPE,CWaPE — GRD par commune (Power BI),https://www.cwape.be/node/6468,2026-10-11,,,"Lecture manuelle, voir curation/spot_checks.csv"
+fluvius-1-23,M,Fluvius,Netbeheerder en gas energie-inhoud per gemeente,https://opendata.fluvius.be/explore/dataset/1_23-dnb-per-gemeente-en-per-sector/,2026-10-12,9c6d7a859c5cb3f589e392e7b749aca505d5751411dbf6633c4903824442bf25,Open data license - FLUVIUS,Fixture : empreinte fictive
+geo-statbel-postcodes-2025,M,Statbel,Conversion Postal code_Refnis code (va01012025),https://statbel.fgov.be/sites/default/files/Over_Statbel_FR/Nomenclaturen/Conversion%20Postal%20code_Refnis%20code_va01012025.xlsx,2026-10-12,c431de1b6b973a1ad2287205e877f1f29c5d7540ee449764b5ec08ffc04d8b2a,CC BY 4.0,Fixture : empreinte fictive
+odwb-ores-elec,M,ORES,ORES électricité — points de prélèvement par localité,https://www.odwb.be/explore/dataset/ores-electricite-_nb-points-prelevement-par-localite-et-type-client-tension-annu/,2026-10-12,,CC BY 4.0 (ORES ; NGI-IGN),
+odwb-ores-gas,M,ORES,ORES gaz — points de prélèvement par localité,https://www.odwb.be/explore/dataset/ores-gaz-nombre-de-points-de-prelevement-par-localite-annuel/,2026-10-12,,CC BY 4.0 (ORES ; NGI-IGN),
+ores-ag-2026-05-21,C,ORES,"ORES Assets, AG du 21/05/2026, point 6 : transfert de réseaux Namur et Gesves",https://media.ores.be/ores-cms/depfic4r/20260521-ag-ores-assets-point-06-transfert-r%C3%A9seaux-namur-et-gesves.pdf,2026-10-12,,,
+vreg-aanwijzing,R,VREG,Aanwijzing netbeheerders,https://www.vlaamsenutsregulator.be/elektriciteit-en-aardgas/technische-reglementen-flexibiliteit-niet-publieke-netten/wie-is-mijn-netbeheerder/aanwijzing-netbeheerders,2026-10-12,,,

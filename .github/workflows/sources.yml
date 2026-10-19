@@ -1,0 +1,56 @@
+name: Sources
+
+# Weekly: download every machine-readable (M) source that records a sha256 and compare.
+# A difference means a source changed and curation is needed; it never blocks a merge.
+on:
+  schedule:
+    - cron: "0 5 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  sources:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Compare the M sources with sources.csv
+        run: |
+          python - <<'EOF'
+          import csv, hashlib, os, sys, urllib.request
+
+          changed, checked = [], 0
+          with open("data/sources.csv", encoding="utf-8", newline="") as handle:
+              rows = [row for row in csv.DictReader(handle) if row["role"] == "M" and row["sha256"]]
+          for row in rows:
+              request = urllib.request.Request(row["url"], headers={"User-Agent": "belgian-dso-map sources check"})
+              try:
+                  with urllib.request.urlopen(request, timeout=120) as response:
+                      digest = hashlib.sha256(response.read()).hexdigest()
+              except OSError as exc:
+                  changed.append(f"- `{row['id']}`: download failed ({exc})")
+                  continue
+              checked += 1
+              if digest != row["sha256"]:
+                  changed.append(f"- `{row['id']}`: sha256 {digest} (recorded {row['sha256']}, {row['retrieved_at']})")
+          with open(os.environ["GITHUB_STEP_SUMMARY"], "a", encoding="utf-8") as summary:
+              summary.write(f"{checked}/{len(rows)} M sources downloaded.\n\n")
+              summary.write("\n".join(changed) + "\n" if changed else "Every M source is unchanged.\n")
+          sys.exit(1 if changed else 0)
+          EOF
+
+      # The acquisition scripts (scripts/acquire/) re-derive curation/derived/ here and
+      # diff the extracts (data/communes.csv and data/postcodes.csv are left alone). They run after a changed sha256 too (!cancelled()):
+      # that is when the diff matters.
+      - name: Re-derive the extracts
+        if: ${{ !cancelled() && hashFiles('scripts/acquire/derive.py') != '' }}
+        run: |
+          pip install openpyxl==3.1.5
+          python scripts/acquire/derive.py --out curation/derived
+          git diff --exit-code -- curation/derived

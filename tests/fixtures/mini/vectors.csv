@@ -1,0 +1,67 @@
+name,kind,postcode,ins,section_key,post_name,ean,expect_status,expect_key,expect_elec,expect_gas_status,expect_gas,expect_flags
+bru-1000,postcode,1000,,,,,ok,21004,sibelga,designated,sibelga,
+bru-1040-choose-commune,postcode,1040,,,,,choose_commune,21004|21005,,,,
+bru-1050-choose-commune,postcode,1050,,,,,choose_commune,21004|21009,,,,
+bru-1050-ins-21009,postcode,1050,21009,,,,ok,21009,sibelga,designated,sibelga,
+bru-1040-ins-99999-ignored,postcode,1040,99999,,,,choose_commune,21004|21005,,,,
+bru-1000-ins-21009-ignored,postcode,1000,21009,,,,ok,21004,sibelga,designated,sibelga,
+wavre-1300,postcode,1300,,,,,ok,25112,rew,designated,ores,
+wavre-1301,postcode,1301,,,,,ok,25112,rew,designated,ores,
+wavre-1300-ins-99999-ignored,postcode,1300,99999,,,,ok,25112,rew,designated,ores,
+wavre-1300-section-zzz-ignored,postcode,1300,,zzz,,,ok,25112,rew,designated,ores,
+tc-namur-5020-choose-section,postcode,5020,,,,,choose_section,champion|flawinne,,,,
+tc-namur-5020-flawinne,postcode,5020,,flawinne,,,ok,92094/flawinne,aieg,designated,ores,transition|operator_differs|to_confirm
+tc-namur-5020-champion,postcode,5020,,champion,,,ok,92094/champion,ores,designated,ores,
+tc-namur-5020-section-zzz-ignored,postcode,5020,,zzz,,,choose_section,champion|flawinne,,,,
+tc-namur-5020-ins-21004-ignored,postcode,5020,21004,,,,choose_section,champion|flawinne,,,,
+tc-namur-5020-ins-and-section,postcode,5020,92094,flawinne,,,ok,92094/flawinne,aieg,designated,ores,transition|operator_differs|to_confirm
+tc-namur-5003-saint-marc,postcode,5003,,,,,ok,92094/saint-marc,aieg,designated,ores,transition|operator_differs|to_confirm
+tc-namur-5024-choose-section,postcode,5024,,,,,choose_section,gelbressee|marche-les-dames,,,,
+namur-5000-centre,postcode,5000,,,,,ok,92094/namur-centre,ores,designated,ores,
+baarle-2387-choose-section,postcode,2387,,,,,choose_section,baarle-hertog|zondereigen,,,,
+baarle-2387-enclaves,postcode,2387,,baarle-hertog,,,ok,13002/baarle-hertog,fluvius-kempen,foreign,enexis,
+baarle-2387-zondereigen,postcode,2387,,zondereigen,,,ok,13002/zondereigen,fluvius-kempen,designated,fluvius-kempen,
+edge-9999-unknown,postcode,9999,,,,,not_found,,,,,
+edge-0000-unknown,postcode,0000,,,,,not_found,,,,,
+edge-502-three-digits,postcode,502,,,,,not_found,,,,,
+edge-50200-five-digits,postcode,50200,,,,,not_found,,,,,
+edge-5o20-letter-o,postcode,5O20,,,,,not_found,,,,,
+edge-empty,postcode,,,,,,not_found,,,,,
+edge-padded-1000,postcode, 1000 ,,,,,ok,21004,sibelga,designated,sibelga,
+edge-bom-1000,postcode,﻿1000,,,,,ok,21004,sibelga,designated,sibelga,
+tc-edge-padded-5020,postcode, 5020 ,,,,,choose_section,champion|flawinne,,,,
+tc-edge-nbsp-5020,postcode, 5020,,,,,choose_section,champion|flawinne,,,,
+edge-em-space-5020,postcode, 5020,,,,,not_found,,,,,
+edge-fullwidth-5020,postcode,５０２０,,,,,not_found,,,,,
+addr-ixelles-1050,address,1050,21009,,,,ok,21009,sibelga,designated,sibelga,
+addr-ixelles-postcode-of-another-commune,address,1000,21009,,,,ok,21009,sibelga,designated,sibelga,
+addr-ixelles-no-postcode,address,,21009,,,,ok,21009,sibelga,designated,sibelga,
+addr-ixelles-bad-postcode,address,10X0,21009,,Ixelles,,ok,21009,sibelga,designated,sibelga,
+addr-unknown-nis,address,1000,99999,,,,not_found,,,,,
+addr-empty-nis,address,1000,,,Bruxelles,,not_found,,,,,
+addr-wavre-post-name-ignored,address,1300,25112,,Basse-Wavre,,ok,25112,rew,designated,ores,
+tc-addr-namur-5020-flawinne-upper,address,5020,92094,,FLAWINNE,,ok,92094/flawinne,aieg,*,*,*
+tc-addr-namur-5024-marche-accent,address,5024,92094,,Marche lès Dames,,ok,92094/marche-les-dames,aieg,designated,ores,transition|operator_differs|to_confirm
+tc-addr-namur-5020-commune-name,address,5020,92094,,Namur,,choose_section,champion|flawinne,,,,
+tc-addr-namur-5020-commune-name-nl,address,5020,92094,,Namen,,choose_section,champion|flawinne,,,,
+tc-addr-namur-5020-empty-post-name,address,5020,92094,,,,choose_section,champion|flawinne,,,,
+tc-addr-namur-5020-unknown-post-name,address,5020,92094,,Malonne,,choose_section,champion|flawinne,,,,
+tc-addr-namur-5003-single-candidate,address,5003,92094,,Namur,,ok,92094/saint-marc,aieg,designated,ores,transition|operator_differs|to_confirm
+tc-addr-namur-no-postcode,address,,92094,,Saint-Marc,,ok,92094/saint-marc,aieg,designated,ores,transition|operator_differs|to_confirm
+tc-addr-namur-no-postcode-no-post-name,address,,92094,,,,choose_section,champion|flawinne|gelbressee|marche-les-dames|namur-centre|saint-marc,,,,
+tc-addr-namur-postcode-of-another-commune,address,1000,92094,,Gelbressée,,ok,92094/gelbressee,ores,designated,ores,
+addr-baarle-commune-name,address,2387,13002,,Baarle-Hertog,,choose_section,baarle-hertog|zondereigen,,,,
+addr-baarle-commune-name-fr,address,2387,13002,,Baerle-Duc,,choose_section,baarle-hertog|zondereigen,,,,
+addr-baarle-zondereigen,address,2387,13002,,Zondereigen,,ok,13002/zondereigen,fluvius-kempen,designated,fluvius-kempen,
+addr-baarle-zondereigen-padded-lower,address,2387,13002,,  zondereigen ,,ok,13002/zondereigen,fluvius-kempen,designated,fluvius-kempen,
+ean-dev-001-gs1-false,ean,,,,,541448200000000001,format_ok,,,,,belgian_prefix
+ean-dev-008-gs1-true,ean,,,,,541448200000000008,format_ok,,,,,belgian_prefix|gs1_ok
+ean-sibelga-prefix,ean,,,,,541448900000000007,format_ok,,sibelga,,,belgian_prefix|gs1_ok
+ean-liege-demo-reads-sibelga,ean,,,,,541448920000100002,format_ok,,sibelga,,,belgian_prefix|gs1_ok
+ean-not-belgian,ean,,,,,871685900000000004,format_ok,,,,,gs1_ok
+ean-17-digits,ean,,,,,54144820000000000,format_invalid,,,,,
+ean-13-digits,ean,,,,,5414482000000,format_invalid,,,,,
+ean-letter,ean,,,,,54144820000000000A,format_invalid,,,,,
+ean-padded,ean,,,,,  541448200000000008 ,format_ok,,,,,belgian_prefix|gs1_ok
+ean-inner-spaces,ean,,,,,5414 4820 0000 0000 08,format_invalid,,,,,
+ean-empty,ean,,,,,,format_invalid,,,,,

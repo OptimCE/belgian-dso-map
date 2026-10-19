@@ -1,0 +1,94 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - '[0-9][0-9][0-9][0-9].[0-9][0-9].*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # the previous tag's dist/ is the previous version
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements-dev.txt
+
+      - name: Install
+        run: pip install -r requirements-dev.txt
+
+      - name: Tag matches release.json and dist/release.json
+        run: |
+          version() { python -c "import json,sys; print(json.load(open(sys.argv[1]))['version'])" "$1"; }
+          tag="${GITHUB_REF_NAME}"
+          test "$tag" = "$(version release.json)" || { echo "tag $tag != release.json"; exit 1; }
+          test "$tag" = "$(version dist/release.json)" || { echo "tag $tag != dist/release.json"; exit 1; }
+
+      - name: Validate (release)
+        run: python scripts/validate.py --release --report .build/REPORT.md
+
+      - name: dist/ rebuilds byte for byte
+        run: |
+          python scripts/build.py --release --out .build/release
+          git diff --no-index --exit-code .build/release dist
+          cmp CHANGES.md dist/CHANGES.md
+
+      - name: Checksums
+        working-directory: dist
+        run: sha256sum -c SHA256SUMS
+
+      - name: Release notes
+        run: python scripts/changes.py --latest dist/CHANGES.md > .build/release-notes.md
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: ${{ github.ref_name }}
+          body_path: .build/release-notes.md
+          files: dist/*
+          fail_on_unmatched_files: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Optional: tell the consumers that the release is out. The "DSO data bump"
+      # workflows of OptimCE/dso-lookup and OptimCE/website listen to the
+      # repository_dispatch event `dso-data-released` (client_payload.version = the tag)
+      # and open their "dso data X → Y" pull requests. Secret DSO_CONSUMERS_TOKEN
+      # (README.md, "Release procedure"): a fine-grained token with Contents read and
+      # write on both repositories. Without it, or when a dispatch fails, this step
+      # writes a notice or a warning and the release stays green: run the bump
+      # workflows by hand.
+      - name: Notify the consumers
+        continue-on-error: true
+        env:
+          DSO_CONSUMERS_TOKEN: ${{ secrets.DSO_CONSUMERS_TOKEN }}
+          VERSION: ${{ github.ref_name }}
+        run: |
+          if [ -z "${DSO_CONSUMERS_TOKEN}" ]; then
+            echo "::notice title=Consumers not notified::DSO_CONSUMERS_TOKEN is not set: run the DSO data bump workflows of OptimCE/dso-lookup and OptimCE/website by hand."
+            exit 0
+          fi
+          payload=$(python -c 'import json, os; print(json.dumps({"event_type": "dso-data-released", "client_payload": {"version": os.environ["VERSION"]}}))')
+          for repo in OptimCE/dso-lookup OptimCE/website; do
+            status=$(curl --silent --show-error --output /dev/null --write-out '%{http_code}' \
+              --request POST \
+              --header "Accept: application/vnd.github+json" \
+              --header "Authorization: Bearer ${DSO_CONSUMERS_TOKEN}" \
+              --header "X-GitHub-Api-Version: 2022-11-28" \
+              --data "${payload}" \
+              "https://api.github.com/repos/${repo}/dispatches") || status="no response"
+            if [ "${status}" = "204" ]; then
+              echo "::notice title=Consumer notified::${repo}: dso-data-released ${VERSION}"
+            else
+              echo "::warning title=Consumer not notified::${repo}: HTTP ${status}. Run its DSO data bump workflow by hand."
+            fi
+          done

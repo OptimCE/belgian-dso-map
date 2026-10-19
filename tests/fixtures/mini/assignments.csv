@@ -1,0 +1,5 @@
+ins,elec_operator,elec_designated,gas_status,gas_operator,flags,note_key,source_ids,valid_from
+21004,sibelga,sibelga,designated,sibelga,,,brugel-grd,
+21005,sibelga,sibelga,designated,sibelga,,,brugel-grd,
+21009,sibelga,sibelga,designated,sibelga,,,brugel-grd,
+25112,rew,rew,designated,ores,,,agw-rew-wavre|cwape-grd-gaz|cwape-power-bi|odwb-ores-gas,

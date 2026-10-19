@@ -1,0 +1,96 @@
+name: Validate
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # tags and origin/main: previous versions are read from git
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements-dev.txt
+
+      - name: Install
+        run: pip install -r requirements-dev.txt
+
+      - name: Lint
+        run: |
+          ruff check .
+          ruff format --check .
+          mypy scripts
+
+      - name: Tests
+        run: pytest -q
+
+      - name: Mini fixture builds are byte-identical
+        run: |
+          python scripts/build.py --fixture --draft --out .build/mini-a
+          python scripts/build.py --fixture --draft --out .build/mini-b
+          git diff --no-index --exit-code .build/mini-a .build/mini-b
+
+      - name: Detect data
+        id: data
+        run: |
+          if [ "$(wc -l < data/communes.csv)" -gt 1 ]; then
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "present=false" >> "$GITHUB_OUTPUT"
+            echo "data/communes.csv has no rows yet: data checks skipped." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      # Red until Eric has accepted every to_confirm note: that is the gate. The steps
+      # after it run anyway (!cancelled(): a bare `if:` means `success() && ...`), so a
+      # data pull request with pending notes still gets the build and dist/ checks.
+      - name: Validate the data
+        if: steps.data.outputs.present == 'true'
+        run: python scripts/validate.py --report .build/REPORT.md
+
+      - name: Builds are byte-identical, dist/ is reproducible
+        if: ${{ !cancelled() && steps.data.outputs.present == 'true' }}
+        env:
+          BASE_REF: ${{ github.base_ref }}
+        run: |
+          version() { python -c "import json,sys; print(json.load(open(sys.argv[1]))['version'])" "$1"; }
+          current=$(version release.json)
+          published=""
+          if [ -f dist/release.json ]; then published=$(version dist/release.json); fi
+          if [ "$current" = "$published" ]; then
+            # Release pull request, or main right after a release: dist/ must rebuild exactly.
+            python scripts/build.py --release --out .build/a
+            python scripts/build.py --release --out .build/b
+            git diff --no-index --exit-code .build/a .build/b
+            git diff --no-index --exit-code .build/a dist
+            cmp CHANGES.md dist/CHANGES.md
+          else
+            # A version in preparation: drafts, and dist/ is left alone.
+            python scripts/build.py --draft --out .build/a
+            python scripts/build.py --draft --out .build/b
+            git diff --no-index --exit-code .build/a .build/b
+            if [ -n "$BASE_REF" ]; then
+              git diff --exit-code "origin/$BASE_REF" -- dist/ CHANGES.md
+            fi
+          fi
+
+      # Informative only: source ages against today, in the job summary.
+      - name: Source ages as of today
+        if: ${{ !cancelled() && steps.data.outputs.present == 'true' }}
+        continue-on-error: true
+        run: |
+          python scripts/validate.py --ignore-acceptance --as-of "$(date -u +%F)" --report .build/REPORT-today.md || true
+          grep -E "^- \[rule 9\]" .build/REPORT-today.md >> "$GITHUB_STEP_SUMMARY" || echo "No stale source." >> "$GITHUB_STEP_SUMMARY"
