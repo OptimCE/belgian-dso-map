@@ -1,8 +1,19 @@
+<p align="center">
+  <img src="docs/logo.svg" alt="OptimCE logo" width="160">
+</p>
+
 # belgian-dso-map
+
+[![Website](https://img.shields.io/badge/Website-optimce.be-2e7d32.svg)](https://www.optimce.be/en/)
+[![Data license](https://img.shields.io/badge/Data-CC%20BY%204.0-lightgrey.svg)](LICENSE)
+[![Code license](https://img.shields.io/badge/Code-Apache%202.0-blue.svg)](LICENSE-CODE)
 
 Which distribution system operator (DSO, *gestionnaire de réseau de distribution*,
 *netbeheerder*) serves each Belgian municipality, for electricity and for gas, with
 its sources.
+
+It is part of [OptimCE](https://www.optimce.be/en/), an open-source platform for
+managing renewable energy communities, built for the Belgian energy-sharing context.
 
 This repository is the **single source of truth**. It holds the editable CSV files,
 the scripts that validate and build them, and the test vectors shared with its two
